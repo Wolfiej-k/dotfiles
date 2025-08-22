@@ -1,5 +1,6 @@
 -- Leader key
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Display
 vim.opt.number = true
