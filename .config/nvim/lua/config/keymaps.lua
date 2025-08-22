@@ -6,24 +6,26 @@ keymap("n", "n", "nzzzv", opts)
 keymap("n", "N", "Nzzzv", opts)
 keymap("n", "<leader>/", ":noh<CR>", opts)
 
--- Split navigation
-keymap("n", "<A-h>", "<C-w>h", opts)
-keymap("n", "<A-j>", "<C-w>j", opts)
-keymap("n", "<A-k>", "<C-w>k", opts)
-keymap("n", "<A-l>", "<C-w>l", opts)
-keymap("n", "<A-s>", ":vsplit<CR>", opts)
-keymap("n", "<A-S>", ":split<CR>", opts)
-keymap("n", "<A-]>", ":vertical resize +5<CR>", opts)
-keymap("n", "<A-[>", ":vertical resize -5<CR>", opts)
-keymap("n", "<A-}>", ":resize +5<CR>", opts)
-keymap("n", "<A-{>", ":resize -5<CR>", opts)
-keymap("n", "<A-=>", "<C-w>=")
-
 -- Save and quit
 keymap("n", "<C-s>", ":w<CR>", opts)
 keymap("i", "<C-s>", "<Esc>:w<CR>gi", opts)
 keymap("n", "<C-q>", ":q<CR>", opts)
 keymap("i", "<C-q>", "<Esc>:q<CR>", opts)
+
+-- Split keymaps
+local function split_keymaps(splits)
+    keymap("n", "<A-h>", splits.move_cursor_left, opts)
+    keymap("n", "<A-j>", splits.move_cursor_down, opts)
+    keymap("n", "<A-k>", splits.move_cursor_up, opts)
+    keymap("n", "<A-l>", splits.move_cursor_right, opts)
+    keymap("n", "<A-o>", splits.resize_left, opts)
+    keymap("n", "<A-p>", splits.resize_right, opts)
+    keymap("n", "<A-O>", splits.resize_up, opts)
+    keymap("n", "<A-P>", splits.resize_down, opts)
+    keymap("n", "<A-s>", ":vsplit<CR>", opts)
+    keymap("n", "<A-S>", ":split<CR>", opts)
+    keymap("n", "<A-=>", "<C-w>=")
+end
 
 -- LSP keymaps
 local function lsp_keymaps(bufnr)
@@ -42,5 +44,6 @@ local function lsp_keymaps(bufnr)
 end
 
 return {
+    split_keymaps = split_keymaps,
     lsp_keymaps = lsp_keymaps
 }

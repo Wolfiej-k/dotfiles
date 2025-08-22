@@ -201,17 +201,11 @@ return {
 
     -- Navigate between nvim and tmux
     {
-        "alexghergh/nvim-tmux-navigation",
+        "mrjones2014/smart-splits.nvim",
         config = function()
-            require("nvim-tmux-navigation").setup {
-                disable_when_zoomed = true,
-                keybindings = {
-                    left = "<A-h>",
-                    down = "<A-j>",
-                    up = "<A-k>",
-                    right = "<A-l>",
-                },
-            }
+            local splits = require("smart-splits")
+            local keymaps = require("config.keymaps")
+            keymaps.split_keymaps(splits)
         end,
     },
 
