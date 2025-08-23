@@ -30,6 +30,8 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.hidden = true
 vim.opt.autoread = true
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Splits
 vim.o.splitright = true

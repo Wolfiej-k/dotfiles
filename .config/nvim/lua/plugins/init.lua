@@ -42,7 +42,7 @@ return {
             views = {
                 cmdline_popup = {
                     position = {
-                        row = "99.9%",
+                        row = -1,
                         col = 0,
                     },
                     size = {
@@ -73,7 +73,7 @@ return {
                     view = "cmdline_popup",
                     opts = {
                         position = {
-                            row = "98%",
+                            row = -1,
                             col = 0,
                         },
                         border = {
@@ -199,16 +199,6 @@ return {
         end,
     },
 
-    -- Navigate between nvim and tmux
-    {
-        "mrjones2014/smart-splits.nvim",
-        config = function()
-            local splits = require("smart-splits")
-            local keymaps = require("config.keymaps")
-            keymaps.split_keymaps(splits)
-        end,
-    },
-
     -- File picker and fuzzy finder
     {
         "folke/snacks.nvim",
@@ -245,13 +235,16 @@ return {
                             box = "horizontal",
                             border = "none",
                             backdrop = false,
-                            width = 0.8,
-                            height = 0.8,
+                            row = -1,
+                            col = 0,
+                            width = 0.7,
+                            height = 0.5,
                             {
                                 box = "vertical",
                                 border = "single",
                                 title = "{title}",
                                 title_pos = "left",
+                                width = 0.4,
 								{ win = "input", height = 1, border = "bottom" },
 								{ win = "list", border = "none" },
                             },
@@ -260,7 +253,7 @@ return {
                                 border = "single",
                                 title = "{preview:Preview}",
                                 title_pos = "left",
-                                width = 0.6
+                                width = 0.6,
                             },
                         },
                     },
@@ -268,6 +261,16 @@ return {
             },
         },
         config = true,
+    },
+
+    -- Tmux integration
+    {
+        "mrjones2014/smart-splits.nvim",
+        config = function()
+            local splits = require("smart-splits")
+            local keymaps = require("config.keymaps")
+            keymaps.split_keymaps(splits)
+        end,
     },
 
     -- LaTeX integration
@@ -284,14 +287,27 @@ return {
     -- File browser
     {
         "echasnovski/mini.files",
+        lazy = false,
         version = false,
         keys = {
             {
                 "<leader>e",
                 function()
-                    require("mini.files").open()
+                    local files = require("mini.files")
+                    local path = vim.api.nvim_buf_get_name(0)
+                    if vim.fn.filereadable(path) == 1 then
+                        files.open(path)
+                    else
+                        files.open(vim.loop.cwd())
+                    end
+                    files.reveal_cwd()
                 end,
                 desc = "Open File Explorer",
+            }
+        },
+        opts = {
+            options = {
+                use_as_default_explorer = true,
             },
         },
         config = true,
