@@ -108,6 +108,7 @@ return {
                     "bashls",
                     "cmake",
                     "sqlls",
+                    "texlab",
                 },
                 automatic_installation = true,
             })
