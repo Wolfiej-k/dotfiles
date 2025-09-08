@@ -109,6 +109,7 @@ return {
                     "cmake",
                     "sqlls",
                     "texlab",
+                    "ocamllsp",
                 },
                 automatic_installation = true,
             })

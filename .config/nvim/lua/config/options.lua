@@ -12,6 +12,7 @@ vim.opt.cmdheight = 0
 vim.opt.wrap = true
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 15
+vim.opt.colorcolumn = "80"
 
 -- Editing
 vim.opt.tabstop = 4
