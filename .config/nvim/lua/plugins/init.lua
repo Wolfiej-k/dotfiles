@@ -6,83 +6,8 @@ return {
         priority = 1000,
         config = function()
             vim.cmd.colorscheme("tokyonight-night")
+            vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = "#7aa2f7" })
         end,
-    },
-
-    -- Revamped UI
-    {
-        "folke/noice.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-        },
-        opts = {
-            presets = {
-                bottom_search = false,
-                command_palette = true,
-                long_message_to_split = true,
-                inc_rename = false,
-                lsp_doc_border = true,
-            },
-            lsp = {
-                progress = { enabled = false },
-                override = {
-                    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                    ["vim.lsp.util.stylize_markdown"] = true,
-                    ["cmp.entry.get_documentation"] = true,
-                },
-            },
-            cmdline = {
-                view = "cmdline_popup",
-                history = {
-                    enabled = true,
-                    max_length = 100,
-                },
-            },
-            views = {
-                cmdline_popup = {
-                    position = {
-                        row = -1,
-                        col = 0,
-                    },
-                    size = {
-                        width = 60,
-                        height = "auto",
-                    },
-                    border = {
-                        style = "none",
-                    },
-                    win_options = {
-                        winblend = 0,
-                    },
-                },
-                hover = {
-                    border = {
-                        style = "single",
-                    },
-                },
-                signature = {
-                    border = {
-                        style = "single",
-                    },
-                },
-            },
-            routes = {
-                {
-                    filter = { event = "cmdline", kind = "input" },
-                    view = "cmdline_popup",
-                    opts = {
-                        position = {
-                            row = -1,
-                            col = 0,
-                        },
-                        border = {
-                            style = "single",
-                        },
-                    },
-                },
-            },
-        },
     },
 
     -- LSP configuration
@@ -358,13 +283,6 @@ return {
         end,
     },
 
-    -- Start screen
-    {
-        "echasnovski/mini.starter",
-        version = false,
-        config = true,
-    },
-
     -- Icon definitions
     {
         "echasnovski/mini.icons",
@@ -382,19 +300,6 @@ return {
             require("mini.statusline").setup({
                 use_icons = true,
                 set_vim_settings = true,
-            })
-        end,
-    },
-
-    -- Bufferline
-    {
-        "echasnovski/mini.tabline",
-        version = false,
-        event = "VeryLazy",
-        config = function()
-            require("mini.tabline").setup({
-                show_icons = true,
-                tabpage_section = "right",
             })
         end,
     },
