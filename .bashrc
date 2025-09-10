@@ -111,3 +111,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# set default editor to neovim
+export EDITOR='nvim'
+export VISUAL='nvim'
