@@ -6,6 +6,7 @@ vim.g.maplocalleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
+vim.opt.showmatch = true
 vim.opt.signcolumn = "yes"
 vim.opt.showmode = false
 vim.opt.cmdheight = 0

@@ -7,24 +7,34 @@ keymap("n", "N", "Nzzzv", opts)
 keymap("n", "<leader>/", ":noh<CR>", opts)
 
 -- Save and quit
-keymap("n", "<C-s>", ":w<CR>", opts)
-keymap("i", "<C-s>", "<Esc>:w<CR>gi", opts)
+keymap("n", "<C-w>", ":w<CR>", opts)
+keymap("i", "<C-w>", "<Esc>:w<CR>gi", opts)
 keymap("n", "<C-q>", ":q<CR>", opts)
 keymap("i", "<C-q>", "<Esc>:q<CR>", opts)
 
 -- Split keymaps
 local function split_keymaps(splits)
-    keymap("n", "<A-h>", splits.move_cursor_left, opts)
-    keymap("n", "<A-j>", splits.move_cursor_down, opts)
-    keymap("n", "<A-k>", splits.move_cursor_up, opts)
-    keymap("n", "<A-l>", splits.move_cursor_right, opts)
-    keymap("n", "<A-H>", splits.resize_left, opts)
-    keymap("n", "<A-J>", splits.resize_down, opts)
-    keymap("n", "<A-K>", splits.resize_up, opts)
-    keymap("n", "<A-L>", splits.resize_right, opts)
-    keymap("n", "<A-s>", ":vsplit<CR>", opts)
-    keymap("n", "<A-v>", ":split<CR>", opts)
-    keymap("n", "<A-=>", "<C-w>=")
+    local function resize_mode()
+        keymap("n", "h", splits.resize_left, opts)
+        keymap("n", "j", splits.resize_down, opts)
+        keymap("n", "k", splits.resize_up, opts)
+        keymap("n", "l", splits.resize_right, opts)
+        keymap("n", "=", "<C-w>=")
+        keymap("n", "<Esc>", function()
+            pcall(vim.keymap.del, "n", "h")
+            pcall(vim.keymap.del, "n", "j")
+            pcall(vim.keymap.del, "n", "k")
+            pcall(vim.keymap.del, "n", "l")
+        end, opts)
+    end
+
+    keymap("n", "<C-s>", ":vsplit<CR>", opts)
+    keymap("n", "<C-x>", ":split<CR>", opts)
+    keymap("n", "<C-h>", splits.move_cursor_left, opts)
+    keymap("n", "<C-j>", splits.move_cursor_down, opts)
+    keymap("n", "<C-k>", splits.move_cursor_up, opts)
+    keymap("n", "<C-l>", splits.move_cursor_right, opts)
+    keymap("n", "<C-y>", resize_mode)
 end
 
 -- LSP keymaps
