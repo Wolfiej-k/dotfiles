@@ -31,7 +31,7 @@ set updatetime=50
 " Keymaps
 nnoremap n nzzzv
 nnoremap N Nzzzv
-nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>gi
+nnoremap <C-w> :w<CR>
+inoremap <C-w> <Esc>:w<CR>gi
 nnoremap <C-q> :q<CR>
 inoremap <C-q> <Esc>:q<CR>
