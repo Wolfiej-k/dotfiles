@@ -1,9 +1,7 @@
 local keymap = vim.keymap.set
 local opts = { silent = true }
 
--- Search clarity
-keymap("n", "n", "nzzzv", opts)
-keymap("n", "N", "Nzzzv", opts)
+-- Search highlights
 keymap("n", "<leader>/", ":noh<CR>", opts)
 
 -- Save and quit
@@ -34,23 +32,31 @@ local function split_keymaps(splits)
     keymap("n", "<C-j>", splits.move_cursor_down, opts)
     keymap("n", "<C-k>", splits.move_cursor_up, opts)
     keymap("n", "<C-l>", splits.move_cursor_right, opts)
-    keymap("n", "<C-y>", resize_mode)
+    keymap("n", "<C-g>", resize_mode)
 end
 
 -- LSP keymaps
-local function lsp_keymaps(bufnr)
-    local lsp_opts = vim.tbl_extend("force", opts, { buffer = bufnr })
+local function lsp_keymaps(event)
+    local lsp_opts = vim.tbl_extend("force", opts, { buffer = event.buf })
     local diagnostic = vim.diagnostic
-    local lsp = vim.lsp.buf
+    local lsp = vim.lsp
 
     keymap("n", "L", diagnostic.open_float, lsp_opts)
-    keymap("n", "K", lsp.hover, lsp_opts)
-    keymap("n", "gd", lsp.definition, lsp_opts)
-    keymap("n", "gD", lsp.declaration, lsp_opts)
-    keymap("n", "gi", lsp.implementation, lsp_opts)
-    keymap("n", "gt", lsp.type_definition, lsp_opts)
-    keymap("n", "gr", lsp.references, lsp_opts)
-    keymap("n", "gs", lsp.signature_help, lsp_opts)
+    keymap("n", "K", lsp.buf.hover, lsp_opts)
+    keymap("n", "gd", lsp.buf.definition, lsp_opts)
+    keymap("n", "gD", lsp.buf.declaration, lsp_opts)
+    keymap("n", "gi", lsp.buf.implementation, lsp_opts)
+    keymap("n", "gt", lsp.buf.type_definition, lsp_opts)
+    keymap("n", "gr", lsp.buf.references, lsp_opts)
+    keymap("n", "gs", lsp.buf.signature_help, lsp_opts)
+
+    local client = lsp.get_client_by_id(event.data.client_id)
+    if client and client.server_capabilities.documentFormattingProvider then
+        local function format()
+            lsp.buf.format({ async = true })
+        end
+        keymap("n", "<leader>f", format, lsp_opts)
+    end
 end
 
 return {

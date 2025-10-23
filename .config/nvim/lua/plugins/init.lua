@@ -43,7 +43,7 @@ return {
                 desc = "LSP keymaps",
                 callback = function(event)
                     local keymaps = require("config.keymaps")
-                    keymaps.lsp_keymaps(event.buf)
+                    keymaps.lsp_keymaps(event)
                 end,
             })
         end,
@@ -75,11 +75,35 @@ return {
                     ["<S-Tab>"] = cmp.mapping.select_prev_item(),
                 }),
                 sources = cmp.config.sources({
+                    { name = "copilot" },
                     { name = "nvim_lsp" },
                     { name = "buffer" },
                     { name = "path" },
+                    { name = "luasnip" },
                 }),
             })
+        end,
+    },
+
+    -- Copilot server
+    {
+        "zbirenbaum/copilot.lua",
+        dependencies = { "copilotlsp-nvim/copilot-lsp" },
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                suggestion = { enabled = false },
+                panel = { enabled = false },
+            })
+        end,
+    },
+
+    -- Copilot autocomplete
+    {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+            require("copilot_cmp").setup()
         end,
     },
 
@@ -213,6 +237,7 @@ return {
             vim.g.vimtex_view_method = "general"
             vim.g.vimtex_view_general_viewer = "/home/wolfi/.local/bin/pdfopen.sh"
             vim.g.vimtex_view_general_options = "-reuse-instance -forward-search @tex @line @pdf"
+            vim.g.vimtex_quickfix_open_on_warning = 0
         end,
     },
 
@@ -260,7 +285,15 @@ return {
         "echasnovski/mini.pairs",
         version = false,
         event = "InsertEnter",
-        config = true,
+        config = function()
+            local pairs = require("mini.pairs")
+            pairs.setup()
+            pairs.map_buf(0, "i", "$", {
+                action = "closeopen",
+                pair = "$$",
+                neigh_pattern = "[^%w\\].",
+            })
+        end,
     },
 
     -- Highlight word
@@ -307,5 +340,12 @@ return {
                 set_vim_settings = true,
             })
         end,
+    },
+
+    -- Vim training
+    {
+        "m4xshen/hardtime.nvim",
+        lazy = false,
+        opts = {},
     },
 }

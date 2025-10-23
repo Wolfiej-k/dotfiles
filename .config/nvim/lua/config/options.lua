@@ -12,7 +12,7 @@ vim.opt.showmode = false
 vim.opt.cmdheight = 0
 vim.opt.wrap = true
 vim.opt.termguicolors = true
-vim.opt.scrolloff = 15
+vim.opt.scrolloff = 8
 vim.opt.colorcolumn = "80"
 
 -- Editing
@@ -21,6 +21,7 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+vim.opt.textwidth = 80
 
 -- Search
 vim.opt.hlsearch = true
