@@ -112,13 +112,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# nodejs dev environment
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# ocaml dev environment
+if command -v opam >/dev/null 2>&1; then
+  eval $(opam env)
+fi
+
 # set default editor to neovim
 export EDITOR='nvim'
 export VISUAL='nvim'
-
-# ocaml dev environment
-eval $(opam env)
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
