@@ -125,3 +125,8 @@ fi
 # set default editor to neovim
 export EDITOR='nvim'
 export VISUAL='nvim'
+. "$HOME/.cargo/env"
+
+# path variables
+export PATH=/usr/lib/llvm-14/bin:$PATH
+export PATH=~/.opam/4.14.1/bin:$PATH

@@ -58,14 +58,16 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
-            "L3MON4D3/LuaSnip",
+            "saadparwaiz1/cmp_luasnip",
         },
         config = function()
             local cmp = require("cmp")
+            local luasnip = require("luasnip")
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -75,13 +77,23 @@ return {
                     ["<S-Tab>"] = cmp.mapping.select_prev_item(),
                 }),
                 sources = cmp.config.sources({
-                    { name = "copilot" },
                     { name = "nvim_lsp" },
+                    { name = "luasnip" },
+                    { name = "copilot" },
                     { name = "buffer" },
                     { name = "path" },
-                    { name = "luasnip" },
                 }),
             })
+        end,
+    },
+
+    -- Snippet collection
+    {
+        "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp",
+        dependencies = { "rafamadriz/friendly-snippets" },
+        config = function()
+            require("luasnip.loaders.from_vscode").lazy_load()
         end,
     },
 
@@ -93,8 +105,9 @@ return {
         event = "InsertEnter",
         config = function()
             require("copilot").setup({
-                suggestion = { enabled = false },
                 panel = { enabled = false },
+                suggestion = { enabled = false },
+                disable_limit_reached_message = false,
             })
         end,
     },
@@ -239,6 +252,16 @@ return {
             vim.g.vimtex_view_general_options = "-reuse-instance -forward-search @tex @line @pdf"
             vim.g.vimtex_quickfix_open_on_warning = 0
         end,
+    },
+
+    -- Lean integration
+    {
+        "Julian/lean.nvim",
+        event = { "BufReadPre *.lean", "BufNewFile *.lean" },
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {
+            mappings = true,
+        }
     },
 
     -- File browser

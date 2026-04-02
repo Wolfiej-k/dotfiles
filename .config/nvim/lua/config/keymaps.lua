@@ -49,6 +49,7 @@ local function lsp_keymaps(event)
     keymap("n", "gt", lsp.buf.type_definition, lsp_opts)
     keymap("n", "gr", lsp.buf.references, lsp_opts)
     keymap("n", "gs", lsp.buf.signature_help, lsp_opts)
+    keymap("n", "<leader>a", lsp.buf.code_action, lsp_opts)
 
     local client = lsp.get_client_by_id(event.data.client_id)
     if client and client.server_capabilities.documentFormattingProvider then

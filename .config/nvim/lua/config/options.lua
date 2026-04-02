@@ -10,7 +10,6 @@ vim.opt.showmatch = true
 vim.opt.signcolumn = "yes"
 vim.opt.showmode = false
 vim.opt.cmdheight = 0
-vim.opt.wrap = true
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.colorcolumn = "80"
