@@ -144,8 +144,14 @@ return {
                     "markdown",
                     "markdown_inline",
                 },
-                highlight = { enable = true },
-                indent = { enable = true },
+                highlight = { 
+                    enable = true,
+                    disable = { "latex", "tex" }
+                },
+                indent = { 
+                    enable = true,
+                    disable = { "latex", "tex" }
+                },
             }
         end,
     },
@@ -251,6 +257,8 @@ return {
             vim.g.vimtex_view_general_viewer = "/home/wolfi/.local/bin/pdfopen.sh"
             vim.g.vimtex_view_general_options = "-reuse-instance -forward-search @tex @line @pdf"
             vim.g.vimtex_quickfix_open_on_warning = 0
+            vim.g.vimtex_indent_ignored_envs = { "document" }
+            vim.g.vimtex_indent_lists = {}
         end,
     },
 
