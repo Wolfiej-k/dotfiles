@@ -10,9 +10,6 @@ keymap("i", "<C-w>", "<Esc>:w<CR>gi", opts)
 keymap("n", "<C-q>", ":q<CR>", opts)
 keymap("i", "<C-q>", "<Esc>:q<CR>", opts)
 
--- Paste over selection
-keymap("v", "p", '"_dP', opts)
-
 -- Split keymaps
 local function split_keymaps(splits)
     local function resize_mode()
