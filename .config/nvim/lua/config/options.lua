@@ -28,7 +28,6 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 -- Files
-vim.opt.clipboard = "unnamedplus"
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.hidden = true
