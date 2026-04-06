@@ -433,11 +433,4 @@ s("align", fmta(
             })
         end,
     },
-
-    -- Vim training
-    {
-        "m4xshen/hardtime.nvim",
-        lazy = false,
-        opts = {},
-    },
 }
