@@ -13,6 +13,7 @@ return {
     -- LSP configuration
     {
         "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             { "williamboman/mason.nvim", build = ":MasonUpdate", config = true },
             "williamboman/mason-lspconfig.nvim",
@@ -102,6 +103,7 @@ return {
     -- Snippet collection
     {
         "L3MON4D3/LuaSnip",
+        event = "InsertEnter",
         build = "make install_jsregexp",
         dependencies = { "rafamadriz/friendly-snippets" },
         config = function()
@@ -296,6 +298,7 @@ s("align", fmta(
     -- Tmux integration
     {
         "mrjones2014/smart-splits.nvim",
+        event = "VeryLazy",
         config = function()
             local splits = require("smart-splits")
             splits.setup({
@@ -336,7 +339,6 @@ s("align", fmta(
     -- File browser
     {
         "echasnovski/mini.files",
-        lazy = false,
         version = false,
         keys = {
             {
@@ -376,14 +378,64 @@ s("align", fmta(
     {
         "echasnovski/mini.pairs",
         version = false,
-        event = "InsertEnter",
+        event = "VeryLazy",
+        opts = {
+            modes = { insert = true, command = false, terminal = false },
+            mappings = {
+                [")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
+                ["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
+                ["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
+                ["["] = {
+                    action = "open",
+                    pair = "[]",
+                    neigh_pattern = ".[%s%z%)}%]]",
+                    register = { cr = false },
+                },
+                ["{"] = {
+                    action = "open",
+                    pair = "{}",
+                    neigh_pattern = ".[%s%z%)}%]]",
+                    register = { cr = false },
+                },
+                ["("] = {
+                    action = "open",
+                    pair = "()",
+                    neigh_pattern = ".[%s%z%)]",
+                    register = { cr = false },
+                },
+                ['"'] = {
+                    action = "closeopen",
+                    pair = '""',
+                    neigh_pattern = "[^%w\\][^%w]",
+                    register = { cr = false },
+                },
+                ["'"] = {
+                    action = "closeopen",
+                    pair = "''",
+                    neigh_pattern = "[^%w\\][^%w]",
+                    register = { cr = false },
+                },
+                ["`"] = {
+                    action = "closeopen",
+                    pair = "``",
+                    neigh_pattern = "[^%w\\][^%w]",
+                    register = { cr = false },
+                },
+            },
+        },
         config = function()
             local pairs = require("mini.pairs")
-            pairs.setup()
-            pairs.map_buf(0, "i", "$", {
-                action = "closeopen",
-                pair = "$$",
-                neigh_pattern = "[^%w\\].",
+            pairs.setup(opts)
+
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "tex",
+                callback = function(args)
+                    pairs.map_buf(args.buf, "i", "$", {
+                        action = "closeopen",
+                        pair = "$$",
+                        neigh_pattern = "[^%w\\][^%w]",
+                    })
+                end,
             })
         end,
     },

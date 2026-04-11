@@ -4,7 +4,16 @@ local opts = { silent = true }
 -- Search highlights
 keymap("n", "<leader>/", ":noh<CR>", opts)
 
+--- Save and quit
+keymap("n", "<C-w>", ":w<CR>", { silent = true, nowait = true })
+keymap("i", "<C-w>", "<Esc>:w<CR>gi", { silent = true, nowait = true })
+keymap("n", "<C-q>", ":q<CR>", opts)
+keymap("i", "<C-q>", "<Esc>:q<CR>", opts)
+
 -- Split keymaps
+keymap("n", "<C-s>", ":vsplit<CR>", opts)
+keymap("n", "<C-x>", ":split<CR>", opts)
+
 local function split_keymaps(splits)
     local function resize_mode()
         keymap("n", "h", splits.resize_left, opts)
