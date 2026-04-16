@@ -14,6 +14,9 @@ keymap("i", "<C-q>", "<Esc>:q<CR>", opts)
 keymap("n", "<C-s>", ":vsplit<CR>", opts)
 keymap("n", "<C-x>", ":split<CR>", opts)
 
+-- Copy file
+keymap("n", "<leader>y", ":%y+<CR>", opts)
+
 local function split_keymaps(splits)
     local function resize_mode()
         keymap("n", "h", splits.resize_left, opts)
