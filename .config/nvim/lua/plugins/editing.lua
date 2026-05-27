@@ -108,6 +108,9 @@ return {
                 s("sum", fmta([[\sum_{<>}^{<>}]], { i(1), i(2) })),
                 s("prod", fmta([[\prod{<>}^{<>}]], { i(1), i(2) })),
                 s("rm", fmta([[\mathrm{<>}]], { i(1) })),
+                s({ trig = "$", snippetType = "autosnippet" },
+                    fmta([[$<>$]], { i(1) })
+                ),
                 s({ trig = "_", wordTrig = false, snippetType = "autosnippet" },
                     fmta([[_{<>}]], { i(1) }), { condition = auto_trigger }),
                 s({ trig = "^", wordTrig = false, snippetType = "autosnippet" },
@@ -140,19 +143,19 @@ return {
                 ["["] = {
                     action = "open",
                     pair = "[]",
-                    neigh_pattern = ".[%s%z%)}%]]",
+                    neigh_pattern = ".[%s%z%)}%]$%\\]",
                     register = { cr = false },
                 },
                 ["{"] = {
                     action = "open",
                     pair = "{}",
-                    neigh_pattern = ".[%s%z%)}%]]",
+                    neigh_pattern = ".[%s%z%)}%]$%\\]",
                     register = { cr = false },
                 },
                 ["("] = {
                     action = "open",
                     pair = "()",
-                    neigh_pattern = ".[%s%z%)]",
+                    neigh_pattern = ".[%s%z%)%$%\\]",
                     register = { cr = false },
                 },
                 ['"'] = {
@@ -176,19 +179,7 @@ return {
             },
         },
         config = function(_, opts)
-            local pairs = require("mini.pairs")
-            pairs.setup(opts)
-
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = "tex",
-                callback = function(args)
-                    pairs.map_buf(args.buf, "i", "$", {
-                        action = "closeopen",
-                        pair = "$$",
-                        neigh_pattern = "[^%w\\][^%w]",
-                    })
-                end,
-            })
+            require("mini.pairs").setup(opts)
         end,
-    },
+    }
 }

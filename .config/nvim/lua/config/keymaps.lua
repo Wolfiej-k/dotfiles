@@ -17,6 +17,16 @@ keymap("n", "<C-x>", ":split<CR>", opts)
 -- Copy file
 keymap("n", "<leader>y", ":%y+<CR>", opts)
 
+-- Format buffer
+keymap("n", "<leader>f", function()
+    local ok, conform = pcall(require, "conform")
+    if ok then
+        conform.format({ async = true, lsp_fallback = true })
+    else
+        vim.lsp.buf.format({ async = true })
+    end
+end, opts)
+
 local function split_keymaps(splits)
     local function resize_mode()
         keymap("n", "h", splits.resize_left, opts)
@@ -54,14 +64,6 @@ local function lsp_keymaps(event)
     keymap("n", "gr", lsp.buf.references, lsp_opts)
     keymap("n", "gs", lsp.buf.signature_help, lsp_opts)
     keymap("n", "<leader>a", lsp.buf.code_action, lsp_opts)
-
-    local client = lsp.get_client_by_id(event.data.client_id)
-    if client and client.server_capabilities.documentFormattingProvider then
-        local function format()
-            lsp.buf.format({ async = true })
-        end
-        keymap("n", "<leader>f", format, lsp_opts)
-    end
 end
 
 return {

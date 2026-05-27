@@ -6,28 +6,36 @@ return {
         dependencies = {
             { "williamboman/mason.nvim", build = ":MasonUpdate", config = true },
             "williamboman/mason-lspconfig.nvim",
+            "hrsh7th/cmp-nvim-lsp"
         },
         config = function()
             local mason = require("mason")
             local mason_lsp = require("mason-lspconfig")
 
+            local servers = {
+                "clangd", "lua_ls", "pyright", "marksman", "jsonls",
+                "jdtls", "bashls", "cmake", "sqlls", "texlab", "ocamllsp"
+            }
+
             mason.setup()
             mason_lsp.setup({
-                ensure_installed = {
-                    "clangd",
-                    "lua_ls",
-                    "pyright",
-                    "marksman",
-                    "jsonls",
-                    "jdtls",
-                    "bashls",
-                    "cmake",
-                    "sqlls",
-                    "texlab",
-                    "ocamllsp",
-                },
-                automatic_installation = true,
+                ensure_installed = servers,
             })
+
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            for _, server in ipairs(servers) do
+                local server_caps = capabilities
+                if server == "clangd" then
+                    server_caps = vim.deepcopy(capabilities)
+                    server_caps.offsetEncoding = { "utf-8", "utf-16" }
+                end
+
+                vim.lsp.config(server, {
+                    capabilities = server_caps,
+                })
+
+                vim.lsp.enable(server)
+            end
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 desc = "LSP keymaps",
@@ -48,30 +56,5 @@ return {
                 { path = "luvit-meta/library", words = { "vim%.uv" } },
             },
         },
-    },
-
-    -- LaTeX integration
-    {
-        "lervag/vimtex",
-        lazy = false,
-        init = function()
-            vim.g.vimtex_view_method = "general"
-            vim.g.vimtex_view_general_viewer = "/home/wolfi/.local/bin/pdfopen.sh"
-            vim.g.vimtex_view_general_options = "-reuse-instance -forward-search @tex @line @pdf"
-            vim.g.vimtex_quickfix_open_on_warning = 0
-            vim.g.vimtex_indent_ignored_envs = { "document" }
-            vim.g.vimtex_indent_lists = {}
-            vim.g.vimtex_indent_on_ampersands = 0
-        end,
-    },
-
-    -- Lean integration
-    {
-        "Julian/lean.nvim",
-        event = { "BufReadPre *.lean", "BufNewFile *.lean" },
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {
-            mappings = true,
-        }
     },
 }
