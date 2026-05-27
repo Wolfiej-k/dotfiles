@@ -28,4 +28,4 @@ alias ssha='eval $(ssh-agent)'
 alias devup='devcontainer up --workspace-folder .'
 alias devex='devcontainer exec --workspace-folder . /bin/bash'
 
-alias venv='source venv/bin/activate'
+alias venv='source .venv/bin/activate'
