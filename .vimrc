@@ -19,7 +19,6 @@ set hlsearch
 set incsearch
 
 " Files
-set clipboard=unnamedplus
 set noswapfile
 set nobackup
 set hidden
