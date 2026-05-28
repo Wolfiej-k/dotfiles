@@ -22,10 +22,3 @@ search() {
 alias ff='files | search'
 alias fd='cd "$(directories | fzf)"'
 alias fg='strings "" | search'
-
-alias ssha='eval $(ssh-agent)'
-
-alias devup='devcontainer up --workspace-folder .'
-alias devex='devcontainer exec --workspace-folder . /bin/bash'
-
-alias venv='source .venv/bin/activate'
